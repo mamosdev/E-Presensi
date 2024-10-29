@@ -28,9 +28,12 @@
 		</div>
 		<!-- *End loader -->
 
+		<!-- Header-->
+		@yield("header")
+		<!-- *End Header-->
+
 		<!-- App Capsule -->
 		<div id="appCapsule">
-			{{-- yield untuk extended yang bisa di ubah ubah --}}
 			@yield("content")
 		</div>
 		<!-- *End App Capsule -->

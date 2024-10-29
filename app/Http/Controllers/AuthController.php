@@ -18,7 +18,16 @@ class AuthController extends Controller
         }
         else {
             //Gagal Login
-            echo "Gagal Login";
+            return redirect('/')->with(['warning' =>'NIK / Password Salah']);
+            
+        }
+    }
+
+    public function proseslogout(){
+        if (Auth::guard('karyawan')->check()) {
+            Auth::guard('karyawan')->logout();
+            redirect('/');
+            
         }
     }
 }
