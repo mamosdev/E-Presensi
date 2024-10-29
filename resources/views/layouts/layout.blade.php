@@ -30,6 +30,7 @@
 
 		<!-- App Capsule -->
 		<div id="appCapsule">
+			{{-- yield untuk extended yang bisa di ubah ubah --}}
 			@yield("content")
 		</div>
 		<!-- *End App Capsule -->
