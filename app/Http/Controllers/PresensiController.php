@@ -18,10 +18,25 @@ class PresensiController extends Controller
     }
 
     public function store(Request $request){
+        
+        
+
         $nik = Auth::guard('karyawan')->user()->nik;
         $tanggal_presensi = date("Y-m-d");
         $jam = date("H:i:s");
+
         $lokasi = $request->lokasi;
+        //seting lokasi kantor manual (Pake Koordinat MAN)
+        $latitudekantor = -7.540059309844185;
+        $longitudekantor = 110.82576449824755;
+
+        $lokasiuser = explode(",",$lokasi);
+        $latitudeuser = $lokasiuser[0]; 
+        $longitudeuser = $lokasiuser[1]; 
+
+        $jarak = $this->distance($latitudekantor,$longitudekantor, $latitudeuser, $longitudeuser);
+        $radius = round($jarak ["meters"]);
+
         $image = $request->image;
 
         $folderPath = "public/uploads/absensi/";
@@ -40,6 +55,10 @@ class PresensiController extends Controller
         ];
 
         $cek = DB::table('presensi')->where('tanggal_presensi', $tanggal_presensi)->where('nik', $nik)->count();
+        if ($radius > 200) {
+            echo "Error|Maaf, Anda sedang diluar jangkauan radius, Jarak anda ".$radius." meter dari kantor|radius";
+        }
+
         if ($cek > 0) {
             $data_pulang = [
                 'jam_out' => $jam,
@@ -74,6 +93,21 @@ class PresensiController extends Controller
             else {
                 echo "Error|Maaf Gagal Absen, Silahkan Hubungi IT|in";
             }
+        }
     }
+
+    //Menghitung Jarak radius kooordinat
+    function distance($lat1, $lon1, $lat2, $lon2)
+    {
+        $theta = $lon1 - $lon2;
+        $miles = (sin(deg2rad($lat1)) * sin(deg2rad($lat2))) + (cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta)));
+        $miles = acos($miles);
+        $miles = rad2deg($miles);
+        $miles = $miles * 60 * 1.1515;
+        $feet = $miles * 5280;
+        $yards = $feet / 3;
+        $kilometers = $miles * 1.609344;
+        $meters = $kilometers * 1000;
+        return compact('meters');
     }
 }

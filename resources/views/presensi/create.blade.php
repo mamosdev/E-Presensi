@@ -78,12 +78,18 @@
 	<audio id="notifikasi_pulang">
 		<source src="{{ asset("assets/sound/notifikasi_pulang.mp3") }}" type="audio/mpeg">
 	</audio>
+	<audio id="notifikasi_radius">
+		<source src="{{ asset("assets/sound/notifikasi_diluar_radius.mp3") }}" type="audio/mpeg">
+	</audio>
 @endsection {{-- End Section Content --}}
 
 @push("myscript")
 	<script>
 		var notifikasi_masuk = document.getElementById('notifikasi_masuk');
-		var notifikasi_masuk = document.getElementById('notifikasi_pulang');
+		var notifikasi_pulang = document.getElementById('notifikasi_pulang');
+		var notifikasi_radius = document.getElementById('notifikasi_radius');
+
+
 
 		Webcam.set({
 			height: 480,
@@ -111,7 +117,7 @@
 
 			var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
 
-			var circle = L.circle([position.coords.latitude, position.coords.longitude], {
+			var circle = L.circle([-7.540059309844185, 110.82576449824755], {
 				color: 'green',
 				fillColor: '#f03',
 				fillOpacity: 0.5,
@@ -158,9 +164,12 @@
 						})
 						setTimeout("location.href='/dashboard'", 3000);
 					} else {
+						if (status[2] == "radius") {
+							notifikasi_radius.play();
+						}
 						Swal.fire({
 							title: 'Error!',
-							text: 'Maaf Gagal Absen, Silahkan Hubungi IT',
+							text: status[1],
 							icon: 'error',
 						})
 					}
