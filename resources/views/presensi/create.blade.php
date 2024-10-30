@@ -53,10 +53,17 @@
 
 	<div class="row">
 		<div class="col">
-			<button id="takeabsen" class="btn btn-primary btn-block">
-				<ion-icon name="camera-outline"></ion-icon>
-				Absen Masuk
-			</button>
+			@if ($cek > 0)
+				<button id="takeabsen" class="btn btn-danger btn-block">
+					<ion-icon name="camera-outline"></ion-icon>
+					Absen Pulang
+				</button>
+			@else
+				<button id="takeabsen" class="btn btn-primary btn-block">
+					<ion-icon name="camera-outline"></ion-icon>
+					Absen Masuk
+				</button>
+			@endif
 		</div>
 	</div>
 	<div class="row mt-2">
@@ -65,6 +72,7 @@
 		</div>
 	</div>
 @endsection {{-- End Section Content --}}
+
 @push("myscript")
 	<script>
 		Webcam.set({
@@ -97,7 +105,7 @@
 				color: 'green',
 				fillColor: '#f03',
 				fillOpacity: 0.5,
-				radius: 20
+				radius: 200
 			}).addTo(map);
 
 		}
@@ -105,5 +113,47 @@
 		function errorCallback() {
 
 		}
+
+		// Event ketika tombol absen diklik
+		$("#takeabsen").click(function(e) {
+
+			e.preventDefault(); // Cegah reload halaman
+			Webcam.snap(function(uri) {
+				image = uri;
+			});
+			var lokasi = $('#lokasi').val();
+			$.ajax({
+				type: "POST",
+				url: "/presensi/store",
+				data: {
+					_token: "{{ csrf_token() }}",
+					image: image,
+					lokasi: lokasi
+
+				},
+				cache: false,
+				success: function(respond) {
+					var status = respond.split("|");
+					if (status[0] == "Success") {
+						Swal.fire({
+							title: "Absensi Berhasil!",
+							text: status[1],
+							icon: "success",
+							// confirmButton: 'OK'
+						})
+						setTimeout("location.href='/dashboard'", 3000);
+					} else {
+						Swal.fire({
+							title: 'Error!',
+							text: 'Maaf Gagal Absen, Silahkan Hubungi IT',
+							icon: 'error',
+						})
+					}
+				},
+				error: function(xhr) {
+					alert('Error: ' + xhr.responseText);
+				}
+			});
+		});
 	</script>
 @endpush
