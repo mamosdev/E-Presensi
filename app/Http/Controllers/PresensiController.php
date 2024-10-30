@@ -40,40 +40,40 @@ class PresensiController extends Controller
         ];
 
         $cek = DB::table('presensi')->where('tanggal_presensi', $tanggal_presensi)->where('nik', $nik)->count();
-            if ($cek > 0) {
-                $data_pulang = [
-                    'jam_out' => $jam,
-                    'foto_out' => $fileName,
-                    'lokasi_out' => $lokasi
+        if ($cek > 0) {
+            $data_pulang = [
+                'jam_out' => $jam,
+                'foto_out' => $fileName,
+                'lokasi_out' => $lokasi
 
-                ];
-                $update = DB::table('presensi')->where('tanggal_presensi', $tanggal_presensi)->where('nik', $nik)->update($data_pulang);
-                if ($update) {
-                    echo "Success|Terimakasih, Hati hati dijalan|out";
-                    Storage::put($file, $image_base64);
-                }
-                else {
-                echo "Error|Maaf Gagal Absen, Silahkan Hubungi IT|out";
-                }
-            
+            ];
+            $update = DB::table('presensi')->where('tanggal_presensi', $tanggal_presensi)->where('nik', $nik)->update($data_pulang);
+            if ($update) {
+                echo "Success|Terimakasih, Hati hati dijalan|out";
+                Storage::put($file, $image_base64);
             }
-            else{
-                $data = [
-                'nik' => $nik,
-                'tanggal_presensi' => $tanggal_presensi,
-                'jam_in' => $jam,
-                'foto_in' => $fileName,
-                'lokasi_in' => $lokasi
-
-                ];
-                 $simpan = DB::table('presensi')->insert($data);
-                        if ($simpan) {
-                            echo "Success|Terimakasih, Selamat Bekerja|in";
-                            Storage::put($file, $image_base64);
-                        }
-                        else {
-                            echo "Error|Maaf Gagal Absen, Silahkan Hubungi IT|out";
-                        }
+            else {
+            echo "Error|Maaf Gagal Absen, Silahkan Hubungi IT|out";
+            }
+        
         }
+        else{
+            $data_masuk = [
+            'nik' => $nik,
+            'tanggal_presensi' => $tanggal_presensi,
+            'jam_in' => $jam,
+            'foto_in' => $fileName,
+            'lokasi_in' => $lokasi
+
+            ];
+            $simpan = DB::table('presensi')->insert($data_masuk);
+            if ($simpan) {
+                echo "Success|Terimakasih, Selamat Bekerja|in";
+                Storage::put($file, $image_base64);
+            }
+            else {
+                echo "Error|Maaf Gagal Absen, Silahkan Hubungi IT|in";
+            }
+    }
     }
 }

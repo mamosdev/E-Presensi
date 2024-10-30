@@ -71,10 +71,20 @@
 			<div id="map"></div>
 		</div>
 	</div>
+
+	<audio id="notifikasi_masuk">
+		<source src="{{ asset("assets/sound/notifikasi_masuk.mp3") }}" type="audio/mpeg">
+	</audio>
+	<audio id="notifikasi_pulang">
+		<source src="{{ asset("assets/sound/notifikasi_pulang.mp3") }}" type="audio/mpeg">
+	</audio>
 @endsection {{-- End Section Content --}}
 
 @push("myscript")
 	<script>
+		var notifikasi_masuk = document.getElementById('notifikasi_masuk');
+		var notifikasi_masuk = document.getElementById('notifikasi_pulang');
+
 		Webcam.set({
 			height: 480,
 			width: 640,
@@ -135,6 +145,11 @@
 				success: function(respond) {
 					var status = respond.split("|");
 					if (status[0] == "Success") {
+						if (status[2] == "in") {
+							notifikasi_masuk.play();
+						} else {
+							notifikasi_pulang.play();
+						}
 						Swal.fire({
 							title: "Absensi Berhasil!",
 							text: status[1],
