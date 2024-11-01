@@ -117,12 +117,14 @@
 
 			var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
 
-			var circle = L.circle([-7.540059309844185, 110.82576449824755], {
-				color: 'green',
-				fillColor: '#f03',
-				fillOpacity: 0.5,
-				radius: 200
-			}).addTo(map);
+			// var circle = L.circle([-7.540059309844185, 110.82576449824755], //alamat MAN
+			var circle = L.circle([-7.529307425169945, 110.82477752242694], //alamat Rumah
+				{
+					color: 'green',
+					fillColor: '#f03',
+					fillOpacity: 0.5,
+					radius: 200
+				}).addTo(map);
 
 		}
 

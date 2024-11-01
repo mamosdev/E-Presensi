@@ -27,8 +27,12 @@ class PresensiController extends Controller
 
         $lokasi = $request->lokasi;
         //seting lokasi kantor manual (Pake Koordinat MAN)
-        $latitudekantor = -7.540059309844185;
-        $longitudekantor = 110.82576449824755;
+        // $latitudekantor = -7.540059309844185;
+        // $longitudekantor = 110.82576449824755;
+
+        //setting lokasi manual dirumah (pake koordinat rumah
+        $latitudekantor = -7.529307425169945;
+        $longitudekantor = 110.82477752242694;
 
         $lokasiuser = explode(",",$lokasi);
         $latitudeuser = $lokasiuser[0]; 

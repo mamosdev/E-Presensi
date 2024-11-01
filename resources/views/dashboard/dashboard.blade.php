@@ -7,7 +7,7 @@
 				<img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w64 rounded">
 			</div>
 			<div id="user-info">
-				<h2 id="user-name">Adam Abdi Al A'la</h2>
+				<h2 id="user-name">MAMO</h2>
 				<span id="user-role">Head of IT</span>
 			</div>
 		</div>
@@ -112,6 +112,54 @@
 			</div>
 		</div>
 
+		<div id="rekappresensi">
+			<h3>Rekap Presensi Bulan {{ $namabulan[$bulanini] }} {{ $tahunini }}</h3>
+			<div class="row">
+				<div class="col-3">
+					<div class="card">
+						<div class="card-body !important p-2 text-center">
+							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+							<ion-icon name="accessibility-outline" class="text-primary" style="font-size: 1.6rem"></ion-icon>
+							<div>Hadir</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card">
+						<div class="card-body !important p-2 text-center">
+							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+
+							<ion-icon name="newspaper-outline" class="text-success" style="font-size: 1.6rem"></ion-icon>
+							<div>Izin</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card">
+						<div class="card-body !important p-2 text-center">
+							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+
+							<ion-icon name="medkit-outline" class="text-danger" style="font-size: 1.6rem"></ion-icon>
+							<div>Sakit</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card">
+						<div class="card-body !important p-2 text-center">
+							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+
+							<ion-icon name="time-outline" class="text-warning" style="font-size: 1.6rem"></ion-icon>
+							<div>Terlambat</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="presencetab mt-2">
 			<div class="tab-pane fade show active" id="pilled" role="tabpanel">
 				<ul class="nav nav-tabs style1" role="tablist">
@@ -127,6 +175,7 @@
 					</li>
 				</ul>
 			</div>
+
 			<div class="tab-content mt-2" style="margin-bottom:100px;">
 				<div class="tab-pane fade show active" id="home" role="tabpanel">
 					<ul class="listview image-listview">
