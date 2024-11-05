@@ -7,8 +7,8 @@
 				<img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w64 rounded">
 			</div>
 			<div id="user-info">
-				<h2 id="user-name">MAMO</h2>
-				<span id="user-role">Head of IT</span>
+				<h2 id="user-name">{{ Auth::guard("karyawan")->user()->nama_lengkap }}</h2>
+				<span id="user-role">{{ Auth::guard("karyawan")->user()->jabatan }}</span>
 			</div>
 		</div>
 	</div>
@@ -118,7 +118,8 @@
 				<div class="col-3">
 					<div class="card">
 						<div class="card-body !important p-2 text-center">
-							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+							<span class="badge bg-danger"
+								style="position: absolute; top:3px;right:8px;">{{ $rekappresensi->jumlahhadir }}</span>
 							<ion-icon name="accessibility-outline" class="text-primary" style="font-size: 1.6rem"></ion-icon>
 							<div>Hadir</div>
 						</div>
@@ -149,7 +150,8 @@
 				<div class="col-3">
 					<div class="card">
 						<div class="card-body !important p-2 text-center">
-							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+							<span class="badge bg-danger"
+								style="position: absolute; top:3px;right:8px;">{{ $rekappresensi->jumlahhadir }}</span>
 
 							<ion-icon name="time-outline" class="text-warning" style="font-size: 1.6rem"></ion-icon>
 							<div>Terlambat</div>
@@ -203,16 +205,23 @@
 				</div>
 				<div class="tab-pane fade" id="profile" role="tabpanel">
 					<ul class="listview image-listview">
-						<li>
-							<div class="item">
-								<img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="image">
-								<div class="in">
-									<div>Edward Lindgren</div>
-									<span class="text-muted">Designer</span>
+						@foreach ($leaderboard as $d)
+							<li>
+								<div class="item">
+									<img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="image">
+									<div class="in">
+										<div>
+											<h4>{{ $d->nama_lengkap }}</h4>
+											<div class="small">{{ $d->jabatan }}</div>
+										</div>
+										<span class="badge {{ $d->jam_in < "07:00" ? "bg-success" : "bg-danger" }}">
+											{{ $d->jam_in }}
+										</span>
+									</div>
 								</div>
-							</div>
-						</li>
-						<li>
+							</li>
+						@endforeach
+						{{-- <li>
 							<div class="item">
 								<img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="image">
 								<div class="in">
@@ -244,7 +253,7 @@
 									<div>Henry Bove</div>
 								</div>
 							</div>
-						</li>
+						</li> --}}
 					</ul>
 				</div>
 
