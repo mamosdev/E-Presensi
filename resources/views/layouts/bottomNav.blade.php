@@ -5,7 +5,7 @@
 			<strong>Home</strong>
 		</div>
 	</a>
-	<a href="#" class="item">
+	<a href="/presensi/history" class="item">
 		<div class="col">
 			<ion-icon name="clipboard-outline"></ion-icon>
 			<strong>Riwayat</strong>
