@@ -171,7 +171,7 @@ class PresensiController extends Controller
         return view('presensi.history', compact('namabulan'));
     }
 
-    public function gethistory(Request $request){
+    public function getHistory(Request $request) {
         $bulan = $request->bulan;
         $tahun = $request->tahun;
         $nik = Auth::guard('karyawan')->user()->nik;
@@ -186,5 +186,39 @@ class PresensiController extends Controller
 
         return view('presensi.gethistory', compact('history'));
         
+    }
+
+    // Function Izin
+    public function izin(){
+        return view('presensi.izin');
+    }
+    
+    public function buatizin(){
+        return view('presensi.buatizin');
+    }
+
+    public function storeizin(Request $request){
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $tanggal_izin = $request->tanggal_izin;
+        $status = $request->status;
+        $keterangan = $request->keterangan;
+
+        $data = [
+            'nik' => $nik,
+            'tanggal_izin' => $tanggal_izin,
+            'status' => $status,
+            'keterangan' => $keterangan,
+        ];
+
+        $simpan = DB::table('pengajuan_izin')->insert($data);
+
+        if ($simpan) {
+            return 
+            redirect('/presensi/izin')->with(['success' => 'Data Berhasil Disimpan']);
+        } else {
+            return 
+            redirect('/presensi/izin')->with(['error' => 'Data Gagal Disimpan']);
+        }
+        // SK + Anggota lama (kelas 3) + Anggota Baru (kelas 2) 
     }
 }
