@@ -16,13 +16,13 @@ composer install
 cp .env.example .env
 ```
 
-2. generate public key
+3. generate public key
 
 ```
 php artisan key:generate
 ```
 
-3. jalankan aplikasi
+4. jalankan aplikasi
 
 ```
 php artisan serve
