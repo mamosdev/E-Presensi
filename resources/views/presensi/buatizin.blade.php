@@ -1,8 +1,17 @@
 @extends("layouts.layout")
-{{-- Calendar --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 
 @section("header")
+	{{-- Calendar --}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<style>
+		.datepicker-modal {
+			max-height: 470px !important;
+		}
+
+		/* .datepicker-date-display{
+												background-color: blue !important;
+											} */
+	</style>
 	{{-- App Header --}}
 	<div class="appHeader bg-primary text-light">
 		<div class="left">
@@ -21,6 +30,7 @@
 	<div class="container" style="margin-top: 70px">
 		<div class="col">
 			<form action="/presensi/storeizin" class="" method="post" id="formizin">
+				@csrf
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
@@ -64,15 +74,18 @@
 				defaultDate: new Date(currYear - 0, 1, 31),
 				maxDate: new Date(currYear, 11, 31),
 				yearRange: [2000, currYear],
-				format: "dd-mm-yyyy"
+				format: "dd-mm-yyyy",
+				setDefaultDate: true,
+				autoClose: true
 			});
 
-			$("#formizin").submit(function() {
+			$("#formizin").submit(function(e) {
 				var tanggal_izin = $("#tanggal_izin").val();
 				var status = $("#status").val();
 				var keterangan = $("#keterangan").val();
 
 				if (tanggal_izin === "") {
+					e.preventDefault();
 					Swal.fire({
 						title: "Oops!",
 						text: 'Tanggal Harus Diisi',
@@ -80,6 +93,7 @@
 					});
 					return false;
 				} else if (status === "") {
+					e.preventDefault();
 					Swal.fire({
 						title: "Oops!",
 						text: 'Status Harus Diisi',
@@ -87,6 +101,7 @@
 					});
 					return false;
 				} else if (keterangan === "") {
+					e.preventDefault();
 					Swal.fire({
 						title: "Oops!",
 						text: 'Keterangan Harus Diisi',

@@ -190,7 +190,9 @@ class PresensiController extends Controller
 
     // Function Izin
     public function izin(){
-        return view('presensi.izin');
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $dataizin = DB::table('pengajuan_izin')->where('nik', $nik)->get();
+        return view('presensi.izin', compact('dataizin'));
     }
     
     public function buatizin(){
@@ -198,8 +200,10 @@ class PresensiController extends Controller
     }
 
     public function storeizin(Request $request){
+    try {
         $nik = Auth::guard('karyawan')->user()->nik;
-        $tanggal_izin = $request->tanggal_izin;
+        // Convert tanggal dari format datepicker (dd-mm-yyyy) ke format database (yyyy-mm-dd)
+        $tanggal_izin = date("Y-m-d", strtotime(str_replace('-','/', $request->tanggal_izin)));
         $status = $request->status;
         $keterangan = $request->keterangan;
 
@@ -208,17 +212,48 @@ class PresensiController extends Controller
             'tanggal_izin' => $tanggal_izin,
             'status' => $status,
             'keterangan' => $keterangan,
+            'status_approved' => 0 // default waiting
         ];
+
+        $request->validate([
+            'tanggal_izin' => 'required|date_format:d-m-Y',
+            'status' => 'required|in:i,s',
+            'keterangan' => 'required'
+        ]);
 
         $simpan = DB::table('pengajuan_izin')->insert($data);
 
         if ($simpan) {
-            return 
-            redirect('/presensi/izin')->with(['success' => 'Data Berhasil Disimpan']);
+            return redirect('/presensi/izin')->with(['success' => 'Data Berhasil Disimpan']);
         } else {
-            return 
-            redirect('/presensi/izin')->with(['error' => 'Data Gagal Disimpan']);
+            return redirect('/presensi/izin')->with(['error' => 'Data Gagal Disimpan']);
         }
-        // SK + Anggota lama (kelas 3) + Anggota Baru (kelas 2) 
+    } catch (\Exception $e) {
+        return redirect('/presensi/izin')->with(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
     }
+}
+
+// public function storeizin(Request $request){
+//         $nik = Auth::guard('karyawan')->user()->nik;
+//         $tanggal_izin = $request->tanggal_izin;
+//         $status = $request->status;
+//         $keterangan = $request->keterangan;
+
+//         $data = [
+//             'nik' => $nik,
+//             'tanggal_izin' => $tanggal_izin,
+//             'status' => $status,
+//             'keterangan' => $keterangan,
+//         ];
+
+//         $simpan = DB::table('pengajuan_izin')->insert($data);
+
+//         if ($simpan) {
+//             return 
+//             redirect('/presensi/izin')->with(['success' => 'Data Berhasil Disimpan']);
+//         } else {
+//             return 
+//             redirect('/presensi/izin')->with(['error' => 'Data Gagal Disimpan']);
+//         }
+//     } // ouwheiufd
 }
