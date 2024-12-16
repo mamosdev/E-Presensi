@@ -14,8 +14,13 @@ class DashboardController extends Controller
         $bulanini = date("m")*1;
         $tahunini = date('Y');
         $nik = Auth::guard('karyawan')->user()->nik;
-        $presensihariini = DB::table('presensi')->where('nik',$nik)->where('tanggal_presensi',$hariini)->first();
-        $historybulanini = DB::table('presensi')->whereRaw('MONTH(tanggal_presensi)="' .$bulanini . '"')
+        
+        $presensihariini = DB::table('presensi')
+            ->where('nik',$nik)->where('tanggal_presensi',$hariini)
+            ->first();
+        
+        $historybulanini = DB::table('presensi')
+            ->whereRaw('MONTH(tanggal_presensi)="' .$bulanini . '"')
             ->where('nik', $nik)
             ->whereRaw('MONTH(tanggal_presensi)="' .$bulanini . '"')
             ->whereRaw('YEAR(tanggal_presensi)="' . $tahunini . '"')
@@ -25,7 +30,7 @@ class DashboardController extends Controller
         $rekappresensi = DB::table('presensi')
             ->selectRaw('COUNT(nik) as jumlahhadir, SUM(IF(jam_in > "07.00",1,0)) as jumlahterlambat')
             ->where('nik',$nik)
-            ->whereRaw('MONTH(tanggal_presensi)="' .$bulanini . '"')
+            ->whereRaw('MONTH(tanggal_presensi)="' . $bulanini . '"')
             ->whereRaw('YEAR(tanggal_presensi)="' . $tahunini . '"')
             ->first();
 
@@ -37,6 +42,28 @@ class DashboardController extends Controller
 
         $namabulan = [" ","Januari" , "Februari" , "Maret" , "April" , "Mei" , "Juni" , "Juli", "Agustus", "September","Oktober", "November", "Desember"];
         
-        return view('dashboard.dashboard',compact('presensihariini','historybulanini','namabulan','bulanini','tahunini','rekappresensi', 'leaderboard' ));
+        $rekapizin = DB::table('pengajuan_izin')
+            ->selectRaw(
+                'SUM(IF(status="i",1,0)) as jumlahizin, 
+                SUM(IF(status="s",1,0)) as jumlahsakit'
+                )
+            ->where('nik',$nik)
+            ->whereRaw('MONTH(tanggal_izin)="' . $bulanini . '"')
+            ->whereRaw('YEAR(tanggal_izin)="' . $tahunini . '"')
+            ->first();
+
+            // dd($rekapizin);
+
+
+        return view('dashboard.dashboard',compact(
+            'presensihariini',
+            'historybulanini',
+            'namabulan',    
+            'bulanini',
+            'tahunini',
+            'rekappresensi',
+            'leaderboard',
+            'rekapizin' 
+        ));
     }
 }

@@ -136,8 +136,9 @@
 				<div class="col-3">
 					<div class="card">
 						<div class="card-body !important p-2 text-center">
-							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
-
+							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">
+								{{ $rekapizin->jumlahizin }}
+							</span>
 							<ion-icon name="newspaper-outline" class="text-success" style="font-size: 1.6rem"></ion-icon>
 							<div>Izin</div>
 
@@ -147,7 +148,9 @@
 				<div class="col-3">
 					<div class="card">
 						<div class="card-body !important p-2 text-center">
-							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">10</span>
+							<span class="badge bg-danger" style="position: absolute; top:3px;right:8px;">
+								{{ $rekapizin->jumlahsakit }}
+							</span>
 
 							<ion-icon name="medkit-outline" class="text-danger" style="font-size: 1.6rem"></ion-icon>
 							<div>Sakit</div>

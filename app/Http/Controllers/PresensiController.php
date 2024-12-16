@@ -200,7 +200,7 @@ class PresensiController extends Controller
     }
 
     public function storeizin(Request $request){
-    try {
+    
         $nik = Auth::guard('karyawan')->user()->nik;
         // Convert tanggal dari format datepicker (dd-mm-yyyy) ke format database (yyyy-mm-dd)
         $tanggal_izin = date("Y-m-d", strtotime(str_replace('-','/', $request->tanggal_izin)));
@@ -228,32 +228,14 @@ class PresensiController extends Controller
         } else {
             return redirect('/presensi/izin')->with(['error' => 'Data Gagal Disimpan']);
         }
-    } catch (\Exception $e) {
-        return redirect('/presensi/izin')->with(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
     }
-}
 
-// public function storeizin(Request $request){
-//         $nik = Auth::guard('karyawan')->user()->nik;
-//         $tanggal_izin = $request->tanggal_izin;
-//         $status = $request->status;
-//         $keterangan = $request->keterangan;
-
-//         $data = [
-//             'nik' => $nik,
-//             'tanggal_izin' => $tanggal_izin,
-//             'status' => $status,
-//             'keterangan' => $keterangan,
-//         ];
-
-//         $simpan = DB::table('pengajuan_izin')->insert($data);
-
-//         if ($simpan) {
-//             return 
-//             redirect('/presensi/izin')->with(['success' => 'Data Berhasil Disimpan']);
-//         } else {
-//             return 
-//             redirect('/presensi/izin')->with(['error' => 'Data Gagal Disimpan']);
-//         }
-//     } // ouwheiufd
+    // How to debug controller :
+    //  public function debug(){
+    //     try  {
+    //  .... your code here!
+    //     } catch (\Exception $e) {
+    //         return redirect('/presensi/izin')->with(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+    //     }
+    //     }
 }
