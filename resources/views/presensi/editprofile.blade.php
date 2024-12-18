@@ -30,8 +30,8 @@
 		</div>
 	</div>
 
-	<form action="/presensi/{{ $karyawan->nik }}/updateprofile" method="POST" enctype="multipart/form-data"
-		style="margin-top: 4rem">
+	<form action="/presensi/{{ $karyawan->nik }}/updateprofile" method="POST" enctype="multipart/form-data" style="">
+		{{-- style="margin-top: 4rem" --}}
 		@csrf
 		<div class="col">
 			<div class="form-group boxed">
@@ -58,7 +58,8 @@
 						<strong>
 							<ion-icon name="cloud-upload-outline" role="img" class="md hydrated"
 								aria-label="cloud upload outline"></ion-icon>
-							<i>Tap to Upload</i>
+							<i>Unggah Foto Profile
+								<br>.png, .jpg, .jpeg</i>
 						</strong>
 					</span>
 				</label>

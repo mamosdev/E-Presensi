@@ -5,26 +5,26 @@
 			<strong>Home</strong>
 		</div>
 	</a>
-	<a href="/presensi/history" class="item">
+	<a href="/presensi/history" class="item {{ request()->is("/presensi/history") ? "active" : "" }}">
 		<div class="col">
 			<ion-icon name="clipboard-outline"></ion-icon>
 			<strong>Riwayat</strong>
 		</div>
 	</a>
-	<a href="/presensi/create" class="item">
+	<a href="/presensi/create" class="item {{ request()->is("/presensi/create") ? "active" : "" }}">
 		<div class="col">
 			<div class="action-button large">
 				<ion-icon name="camera" role="img" class="md hydrated" aria-label="add outline"></ion-icon>
 			</div>
 		</div>
 	</a>
-	<a href="/presensi/izin" class="item">
+	<a href="/presensi/izin" class="item {{ request()->is("/presensi/izin") ? "active" : "" }}">
 		<div class="col">
 			<ion-icon name="calendar-outline"></ion-icon>
 			<strong>Izin</strong>
 		</div>
 	</a>
-	<a href="/editprofile" class="item">
+	<a href="/editprofile" class="item {{ request()->is("/editprofile") ? "active" : "" }}">
 		<div class="col">
 			<ion-icon name="people-outline" role="img" class="md hydrated" aria-label="people outline"></ion-icon>
 			<strong>Profile</strong>
